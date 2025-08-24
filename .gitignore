@@ -1,0 +1,55 @@
+# Godot-specific
+.import/
+export_presets.cfg
+*.translation
+*.import
+
+# Build & export files
+*.exe
+*.apk
+*.aab
+*.pck
+*.zip
+*.tar.gz
+*.dmg
+*.app
+*.xcarchive
+
+# User-specific project settings
+.project_metadata
+.editor_settings
+.godot/
+
+# OS-specific files
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# Logs and cache
+*.log
+*.tmp
+*.swp
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Python virtualenvs or misc build tools
+venv/
+.env/
+
+# Exported assets or temp working files
+assets/exported/
+temp/
+cache/
