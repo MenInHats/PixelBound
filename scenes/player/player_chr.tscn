@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cbnceug4d3ouf"]
 
 [ext_resource type="Script" uid="uid://cec042wfc6w0y" path="res://scripts/player/player_chr_script.gd" id="1_pjrvx"]
-[ext_resource type="Texture2D" uid="uid://dt588b487nqtx" path="res://assets/sprites/characters/Placeholder16x16PlayerChrSpriteSheet.png" id="2_pjrvx"]
+[ext_resource type="Texture2D" uid="uid://dapae2gjjfaui" path="res://assets/sprites/characters/Placeholder16x16PlayerChrSpriteSheet.png" id="2_pjrvx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1m5y5"]
 atlas = ExtResource("2_pjrvx")
@@ -44,8 +44,8 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_pjrvx"]
-radius = 16.124516
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjrvx"]
+size = Vector2(8, 16)
 
 [node name="PlayerChr" type="CharacterBody2D"]
 script = ExtResource("1_pjrvx")
@@ -56,6 +56,7 @@ animation = &"Walk"
 frame_progress = 0.44052327
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_pjrvx")
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_pjrvx")
 
 [node name="Camera2D" type="Camera2D" parent="."]

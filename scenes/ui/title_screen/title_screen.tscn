@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c0cfvoddhqfss"]
 
-[ext_resource type="Texture2D" uid="uid://b1m36dohx0afs" path="res://assets/textures/placeholder/PlaceHolderVGBackground.png" id="1_eb34j"]
+[ext_resource type="Texture2D" uid="uid://vckj24qnflmw" path="res://assets/textures/placeholder/PlaceHolderVGBackground.png" id="1_eb34j"]
 [ext_resource type="PackedScene" uid="uid://dgra8d3lfq54t" path="res://scenes/ui/title_screen/start_button.tscn" id="2_oijkb"]
 
 [sub_resource type="FontVariation" id="FontVariation_oijkb"]
@@ -17,7 +17,7 @@ texture = ExtResource("1_eb34j")
 expand_mode = 1
 
 [node name="Start Button" parent="." instance=ExtResource("2_oijkb")]
-position = Vector2(204, 115)
+position = Vector2(228, 119)
 
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
