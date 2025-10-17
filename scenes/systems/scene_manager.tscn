@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bth28kvcreljs"]
+
+[ext_resource type="Script" uid="uid://dhem0h06o3y21" path="res://scripts/systems/SceneManager.gd" id="1_ejs3c"]
+
+[node name="SceneManager" type="Node2D"]
+script = ExtResource("1_ejs3c")
+
+[node name="FadeRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
