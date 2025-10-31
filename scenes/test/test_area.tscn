@@ -519,6 +519,7 @@ texture = ExtResource("1_nl4e5")
 31:15/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_bl460"]
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_nutjh")
 
 [sub_resource type="LabelSettings" id="LabelSettings_nutjh"]
