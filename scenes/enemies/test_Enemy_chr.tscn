@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://ckhaprwogidyc"]
+
+[ext_resource type="Script" uid="uid://uqth7wocqplv" path="res://scripts/enemies/test_enemy_chr_script.gd" id="1_eunv2"]
+[ext_resource type="Texture2D" uid="uid://td4xnfm6s543" path="res://assets/sprites/characters/Placeholder16x16PlayerChr.png" id="1_onipj"]
+[ext_resource type="Script" uid="uid://boxhn8f0s56up" path="res://components/HealthComponent.gd" id="2_la4bo"]
+[ext_resource type="Script" uid="uid://dc0r85fys45s6" path="res://scripts/systems/HurtBoxHitBox/HitBox.gd" id="3_3pfli"]
+[ext_resource type="Script" uid="uid://bop3j6je218tu" path="res://scripts/systems/HurtBoxHitBox/HurtBox.gd" id="4_mlom5"]
+
+[sub_resource type="Resource" id="Resource_f8vcw"]
+script = ExtResource("2_la4bo")
+curHealth = 100
+metadata/_custom_type_script = "uid://boxhn8f0s56up"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlom5"]
+radius = 5.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_la4bo"]
+radius = 4.0
+height = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onipj"]
+size = Vector2(8, 17)
+
+[node name="EnemyCharacter2D" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_eunv2")
+health_component = SubResource("Resource_f8vcw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+texture = ExtResource("1_onipj")
+
+[node name="HitBoxes" type="Area2D" parent="Sprite2D"]
+visible = false
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_3pfli")
+metadata/_custom_type_script = "uid://dc0r85fys45s6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitBoxes"]
+shape = SubResource("CapsuleShape2D_mlom5")
+
+[node name="HurtBoxes" type="Area2D" parent="."]
+script = ExtResource("4_mlom5")
+metadata/_custom_type_script = "uid://bop3j6je218tu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxes"]
+shape = SubResource("CapsuleShape2D_la4bo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-1, -0.5)
+shape = SubResource("RectangleShape2D_onipj")

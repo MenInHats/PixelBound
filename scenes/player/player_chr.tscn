@@ -1,7 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbnceug4d3ouf"]
+[gd_scene load_steps=15 format=3 uid="uid://cbnceug4d3ouf"]
 
 [ext_resource type="Script" uid="uid://cec042wfc6w0y" path="res://scripts/player/player_chr_script.gd" id="1_pjrvx"]
-[ext_resource type="Texture2D" uid="uid://dapae2gjjfaui" path="res://assets/sprites/characters/Placeholder16x16PlayerChrSpriteSheet.png" id="2_pjrvx"]
+[ext_resource type="Texture2D" uid="uid://dt588b487nqtx" path="res://assets/sprites/characters/Placeholder16x16PlayerChrSpriteSheet.png" id="2_pjrvx"]
+[ext_resource type="Script" uid="uid://boxhn8f0s56up" path="res://components/HealthComponent.gd" id="2_w8b3x"]
+[ext_resource type="Script" uid="uid://bop3j6je218tu" path="res://scripts/systems/HurtBoxHitBox/HurtBox.gd" id="3_1m5y5"]
+[ext_resource type="Script" uid="uid://cy7yjlof4j2td" path="res://components/ForceKnockbackComponent.gd" id="3_bx1xs"]
+
+[sub_resource type="Resource" id="Resource_bx1xs"]
+script = ExtResource("2_w8b3x")
+maxHealth = 500
+curHealth = 500
+metadata/_custom_type_script = "uid://boxhn8f0s56up"
+
+[sub_resource type="Resource" id="Resource_poh6x"]
+script = ExtResource("3_bx1xs")
+knockback_strength = 100.0
+metadata/_custom_type_script = "uid://cy7yjlof4j2td"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1m5y5"]
 atlas = ExtResource("2_pjrvx")
@@ -44,19 +58,43 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w8b3x"]
+radius = 5.0
+height = 18.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pjrvx"]
 size = Vector2(8, 16)
 
 [node name="PlayerChr" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_pjrvx")
+health_component = SubResource("Resource_bx1xs")
+force_knockback = SubResource("Resource_poh6x")
+speed = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2r5d6")
 animation = &"Walk"
 frame_progress = 0.44052327
 
+[node name="HurtBoxes" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 2
+collision_mask = 8
+script = ExtResource("3_1m5y5")
+metadata/_custom_type_script = "uid://bop3j6je218tu"
+
+[node name="HurtBoxCollision" type="CollisionShape2D" parent="AnimatedSprite2D/HurtBoxes"]
+shape = SubResource("CapsuleShape2D_w8b3x")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_pjrvx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -217.0
+offset_top = -116.0
+offset_right = -169.0
+offset_bottom = -89.0
