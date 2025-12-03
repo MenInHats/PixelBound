@@ -1,11 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0cfvoddhqfss"]
+[gd_scene load_steps=3 format=3 uid="uid://c0cfvoddhqfss"]
 
-[ext_resource type="Texture2D" uid="uid://vckj24qnflmw" path="res://assets/textures/placeholder/PlaceHolderVGBackground.png" id="1_eb34j"]
+[ext_resource type="Texture2D" uid="uid://cx5d1y5q35wnu" path="res://assets/ui/Main Menu Background Art.png" id="1_oijkb"]
 [ext_resource type="PackedScene" uid="uid://dgra8d3lfq54t" path="res://scenes/ui/title_screen/start_button.tscn" id="2_oijkb"]
-
-[sub_resource type="FontVariation" id="FontVariation_oijkb"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_x4ugo"]
 
 [node name="TitleScreen" type="Node"]
 
@@ -13,19 +9,12 @@
 texture_filter = 1
 offset_right = 480.0
 offset_bottom = 270.0
-texture = ExtResource("1_eb34j")
+texture = ExtResource("1_oijkb")
 expand_mode = 1
 
 [node name="Start Button" parent="." instance=ExtResource("2_oijkb")]
-position = Vector2(228, 119)
+position = Vector2(211, 225)
 
-[node name="Label" type="Label" parent="."]
-texture_filter = 1
-offset_left = 137.0
-offset_top = 38.0
-offset_right = 315.0
-offset_bottom = 83.0
-theme_override_fonts/font = SubResource("FontVariation_oijkb")
-text = "Title"
-label_settings = SubResource("LabelSettings_x4ugo")
-horizontal_alignment = 1
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
