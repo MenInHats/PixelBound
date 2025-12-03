@@ -2,37 +2,23 @@ extends Resource
 
 class_name HealthComponent
 
-signal entity_died
-signal health_changed(new_health)
-signal health_healed(new_health)
-
 @export var maxHealth := 100 
 @export var curHealth := 10
+@export var minHealth := 0
+var entityIsDead
 
-func setHealthToMax() -> int:
-	curHealth = clamp(curHealth, 0, maxHealth) #clamp allows for the setting of a custom health that doesent exceed the max health and is not below 0 health
-	print("Player Health:", curHealth)
-	return curHealth
-
-func damageCalculation(recievedDamage: int) -> int:
+func damage_calculation(recievedDamage: int) -> int:
 	curHealth = max(curHealth - recievedDamage, 0) #max ensures curHealth does not go below 0 
-	if curHealth <= 0:
-		emit_signal("entity_died")
 	int(curHealth)
 	return curHealth
 
-func healingCalculation(recievedHealth: int):
+func healing_calculation(recievedHealth: int):
 	curHealth = min(curHealth + recievedHealth, maxHealth) #min ensures curHealth does not go above the maxHealth
-	emit_signal("health_healed", curHealth)
-
-func killEntity():
-	curHealth = 0
-	emit_signal("health_changed", curHealth)
-	emit_signal("entity_died")
+	return curHealth
 	
-func resetEntityHealth():
+func reset_entity_health():
 	curHealth = maxHealth
-	emit_signal("health_healed", curHealth)
+	return curHealth
 
-func isEntityDead() -> bool: #fuction to check if entity (self) is dead
-	return curHealth <= 0
+func is_entity_dead(entity_health) -> bool: #fuction to check if entity (self) is dead
+	return entity_health <= 0

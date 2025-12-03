@@ -1,15 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckhaprwogidyc"]
+[gd_scene load_steps=12 format=3 uid="uid://ckhaprwogidyc"]
 
 [ext_resource type="Script" uid="uid://uqth7wocqplv" path="res://scripts/enemies/test_enemy_chr_script.gd" id="1_eunv2"]
 [ext_resource type="Texture2D" uid="uid://td4xnfm6s543" path="res://assets/sprites/characters/Placeholder16x16PlayerChr.png" id="1_onipj"]
 [ext_resource type="Script" uid="uid://boxhn8f0s56up" path="res://components/HealthComponent.gd" id="2_la4bo"]
 [ext_resource type="Script" uid="uid://dc0r85fys45s6" path="res://scripts/systems/HurtBoxHitBox/HitBox.gd" id="3_3pfli"]
+[ext_resource type="Script" uid="uid://cy7yjlof4j2td" path="res://components/ForceKnockbackComponent.gd" id="3_f8vcw"]
 [ext_resource type="Script" uid="uid://bop3j6je218tu" path="res://scripts/systems/HurtBoxHitBox/HurtBox.gd" id="4_mlom5"]
 
 [sub_resource type="Resource" id="Resource_f8vcw"]
 script = ExtResource("2_la4bo")
 curHealth = 100
 metadata/_custom_type_script = "uid://boxhn8f0s56up"
+
+[sub_resource type="Resource" id="Resource_ca5gt"]
+script = ExtResource("3_f8vcw")
+knockback_strength = 150.0
+metadata/_custom_type_script = "uid://cy7yjlof4j2td"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlom5"]
 radius = 5.0
@@ -24,10 +30,12 @@ size = Vector2(8, 17)
 
 [node name="EnemyCharacter2D" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 23
 motion_mode = 1
 script = ExtResource("1_eunv2")
 health_component = SubResource("Resource_f8vcw")
+force_knockback = SubResource("Resource_ca5gt")
+speed = 2000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0, 1, 1)
@@ -36,15 +44,21 @@ texture = ExtResource("1_onipj")
 [node name="HitBoxes" type="Area2D" parent="Sprite2D"]
 visible = false
 collision_layer = 8
-collision_mask = 0
+collision_mask = 2
 script = ExtResource("3_3pfli")
+col_layer = 8
+col_mask = 2
 metadata/_custom_type_script = "uid://dc0r85fys45s6"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitBoxes"]
 shape = SubResource("CapsuleShape2D_mlom5")
 
 [node name="HurtBoxes" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 16
 script = ExtResource("4_mlom5")
+col_layer = 4
+col_mask = 16
 metadata/_custom_type_script = "uid://bop3j6je218tu"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxes"]

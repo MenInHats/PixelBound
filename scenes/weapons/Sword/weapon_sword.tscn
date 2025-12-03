@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://bv1ijr4ixhm7n"]
+
+[ext_resource type="Texture2D" uid="uid://cgsvfchifv6lo" path="res://assets/sprites/WeaponSwordSwipe.png" id="1_k0t8d"]
+[ext_resource type="Script" uid="uid://b34nfpi5332y" path="res://scripts/weapons/sword/weapon_sword.gd" id="1_kssjb"]
+[ext_resource type="Script" uid="uid://dc0r85fys45s6" path="res://scripts/systems/HurtBoxHitBox/HitBox.gd" id="2_kssjb"]
+
+[node name="WeaponSword" type="Node2D"]
+script = ExtResource("1_kssjb")
+visible_time = 1.0
+hidden_time = 1.0
+start_on_ready = false
+
+[node name="WeaponPivot" type="Marker2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="WeaponPivot"]
+texture_filter = 1
+position = Vector2(12, 0)
+texture = ExtResource("1_k0t8d")
+
+[node name="HitBoxes" type="Area2D" parent="WeaponPivot"]
+position = Vector2(12, 0)
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("2_kssjb")
+col_layer = 16
+metadata/_custom_type_script = "uid://dc0r85fys45s6"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WeaponPivot/HitBoxes"]
+polygon = PackedVector2Array(-12, -16, -2, -8, 0, 0, -2, 8, -12, 16, -6, 18, 1, 15, 6, 12, 10, 6, 11, 0, 10, -6, 6, -12, 1, -15, -6, -18)
+
+[node name="CycleTimer" type="Timer" parent="."]
+one_shot = true
