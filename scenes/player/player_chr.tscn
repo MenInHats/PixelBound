@@ -1,7 +1,39 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbnceug4d3ouf"]
+[gd_scene load_steps=23 format=3 uid="uid://cbnceug4d3ouf"]
 
 [ext_resource type="Script" uid="uid://cec042wfc6w0y" path="res://scripts/player/player_chr_script.gd" id="1_pjrvx"]
-[ext_resource type="Texture2D" uid="uid://dapae2gjjfaui" path="res://assets/sprites/characters/Placeholder16x16PlayerChrSpriteSheet.png" id="2_pjrvx"]
+[ext_resource type="Texture2D" uid="uid://dt588b487nqtx" path="res://assets/sprites/characters/Placeholder16x16PlayerChrSpriteSheet.png" id="2_pjrvx"]
+[ext_resource type="Script" uid="uid://boxhn8f0s56up" path="res://components/HealthComponent.gd" id="2_w8b3x"]
+[ext_resource type="Script" uid="uid://bop3j6je218tu" path="res://scripts/systems/HurtBoxHitBox/HurtBox.gd" id="3_1m5y5"]
+[ext_resource type="Script" uid="uid://cy7yjlof4j2td" path="res://components/ForceKnockbackComponent.gd" id="3_bx1xs"]
+[ext_resource type="Script" uid="uid://baclopiouvrwo" path="res://components/CameraComponent.gd" id="4_poh6x"]
+[ext_resource type="Script" uid="uid://j6fqda8ed0bx" path="res://components/PlayerAttackDirectionComponent.gd" id="5_hjs2o"]
+[ext_resource type="Shader" uid="uid://dl6i88j7raqec" path="res://data/shaders/player/player_chr.gdshader" id="5_q65iy"]
+[ext_resource type="PackedScene" uid="uid://7x1c58t6aiop" path="res://scenes/ui/EntityComponents/health_bar.tscn" id="7_2r5d6"]
+[ext_resource type="PackedScene" uid="uid://bv1ijr4ixhm7n" path="res://scenes/weapons/Sword/weapon_sword.tscn" id="9_vktf6"]
+
+[sub_resource type="Resource" id="Resource_bx1xs"]
+script = ExtResource("2_w8b3x")
+maxHealth = 500
+curHealth = 500
+metadata/_custom_type_script = "uid://boxhn8f0s56up"
+
+[sub_resource type="Resource" id="Resource_poh6x"]
+script = ExtResource("3_bx1xs")
+knockback_strength = 100.0
+metadata/_custom_type_script = "uid://cy7yjlof4j2td"
+
+[sub_resource type="Resource" id="Resource_2r5d6"]
+script = ExtResource("4_poh6x")
+metadata/_custom_type_script = "uid://baclopiouvrwo"
+
+[sub_resource type="Resource" id="Resource_ovkf2"]
+script = ExtResource("5_hjs2o")
+sword_offset = 6.0
+metadata/_custom_type_script = "uid://j6fqda8ed0bx"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vktf6"]
+render_priority = 0
+shader = ExtResource("5_q65iy")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1m5y5"]
 atlas = ExtResource("2_pjrvx")
@@ -44,21 +76,49 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w8b3x"]
+radius = 5.0
+height = 18.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pjrvx"]
 size = Vector2(8, 16)
 
 [node name="PlayerChr" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_pjrvx")
+health_component = SubResource("Resource_bx1xs")
+force_knockback = SubResource("Resource_poh6x")
+camera_settings = SubResource("Resource_2r5d6")
+plyaer_attack_dir = SubResource("Resource_ovkf2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_vktf6")
 sprite_frames = SubResource("SpriteFrames_2r5d6")
 animation = &"Walk"
 frame_progress = 0.44052327
+
+[node name="HurtBoxes" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 2
+collision_mask = 8
+script = ExtResource("3_1m5y5")
+col_layer = 2
+col_mask = 8
+metadata/_custom_type_script = "uid://bop3j6je218tu"
+
+[node name="HurtBoxCollision" type="CollisionShape2D" parent="AnimatedSprite2D/HurtBoxes"]
+shape = SubResource("CapsuleShape2D_w8b3x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_pjrvx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HealthBar" parent="." instance=ExtResource("7_2r5d6")]
+offset_left = -6.0
+offset_top = -12.0
+offset_right = 5.0
+offset_bottom = -10.0
+
+[node name="WeaponSword" parent="." instance=ExtResource("9_vktf6")]
+reach = 12.0

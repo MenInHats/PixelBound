@@ -51,6 +51,7 @@ folder_colors={
 "res://scenes/ui/": "orange",
 "res://scenes/ui/title_screen/": "yellow",
 "res://scenes/weapons/": "orange",
+"res://scenes/weapons/Sword/": "yellow",
 "res://scenes/world/": "orange",
 "res://scripts/": "red",
 "res://scripts/enemies/": "orange",
@@ -100,8 +101,12 @@ OpenMenu={
 2d_physics/layer_3="Enemies"
 2d_physics/layer_4="Enemy Hitboxes"
 2d_physics/layer_5="Player Hitboxes"
+2d_physics/layer_6="Layer 6"
+2d_physics/layer_7="Layer 7"
+2d_physics/layer_8="Layer 8"
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
 2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
