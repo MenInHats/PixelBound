@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://jw2h6gk8twds"]
+
+[ext_resource type="Texture2D" uid="uid://d1q5meniuthcg" path="res://assets/sprites/WeaponOrbSprite.png" id="1_5602b"]
+[ext_resource type="Script" uid="uid://bx353mdo4to1t" path="res://scripts/weapons/orb/weapon_orb_projectile_script.gd" id="1_wbp4p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wbp4p"]
+radius = 5.0990195
+
+[node name="OrbProjectile" type="Area2D"]
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("1_wbp4p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_5602b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wbp4p")

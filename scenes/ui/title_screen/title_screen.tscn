@@ -1,20 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0cfvoddhqfss"]
 
-[ext_resource type="Texture2D" uid="uid://cx5d1y5q35wnu" path="res://assets/ui/Main Menu Background Art.png" id="1_oijkb"]
+[ext_resource type="Texture2D" uid="uid://ddgdix7ysl8vp" path="res://assets/ui/Main Menu Background Art.png" id="1_oijkb"]
 [ext_resource type="PackedScene" uid="uid://dgra8d3lfq54t" path="res://scenes/ui/title_screen/start_button.tscn" id="2_oijkb"]
 
 [node name="TitleScreen" type="Node"]
-
-[node name="TextureRect" type="TextureRect" parent="."]
-texture_filter = 1
-offset_right = 480.0
-offset_bottom = 270.0
-texture = ExtResource("1_oijkb")
-expand_mode = 1
 
 [node name="Start Button" parent="." instance=ExtResource("2_oijkb")]
 position = Vector2(211, 225)
 
 [node name="TextureRect2" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_oijkb")

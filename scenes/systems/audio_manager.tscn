@@ -1,0 +1,58 @@
+[gd_scene load_steps=15 format=3 uid="uid://baucqk68uo7b4"]
+
+[ext_resource type="Script" uid="uid://chaa3q1bjmy42" path="res://scripts/systems/AudioManager-main/AudioManager.gd" id="1_hrhdx"]
+[ext_resource type="Script" uid="uid://cle13ye6snqji" path="res://scripts/systems/AudioManager-main/SoundEffectSetting.gd" id="2_kix12"]
+[ext_resource type="AudioStream" uid="uid://bpjk3onowucfe" path="res://assets/audio/sfx/bone-break-2-218511.mp3" id="3_3xok3"]
+[ext_resource type="AudioStream" uid="uid://bmy7b5usbp2el" path="res://assets/audio/sfx/8bit-music-for-game-68698.mp3" id="4_03wka"]
+[ext_resource type="AudioStream" uid="uid://dgn7x415yy8i5" path="res://assets/audio/sfx/achievement-video-game-type-1-230515.mp3" id="5_uydfr"]
+[ext_resource type="AudioStream" uid="uid://cgwu04fmkby5c" path="res://assets/audio/sfx/video-game-sword-swing-sfx-409364.mp3" id="6_uxk66"]
+[ext_resource type="AudioStream" uid="uid://jfafyhl5vuhb" path="res://assets/audio/sfx/game-over-38511.mp3" id="7_hds1h"]
+[ext_resource type="AudioStream" uid="uid://ds4elrx4omjbi" path="res://assets/audio/sfx/hit-flesh-02-266309.mp3" id="8_3xok3"]
+
+[sub_resource type="Resource" id="Resource_hl7fh"]
+script = ExtResource("2_kix12")
+limit = 3
+sound_effect = ExtResource("3_3xok3")
+volume = 1.0
+pitch_randomness = 0.3
+metadata/_custom_type_script = "uid://cle13ye6snqji"
+
+[sub_resource type="Resource" id="Resource_m8juj"]
+script = ExtResource("2_kix12")
+type = 1
+sound_effect = ExtResource("4_03wka")
+volume = 0.29999999999999716
+metadata/_custom_type_script = "uid://cle13ye6snqji"
+
+[sub_resource type="Resource" id="Resource_age6g"]
+script = ExtResource("2_kix12")
+type = 2
+sound_effect = ExtResource("5_uydfr")
+metadata/_custom_type_script = "uid://cle13ye6snqji"
+
+[sub_resource type="Resource" id="Resource_x8ipi"]
+script = ExtResource("2_kix12")
+limit = 6
+type = 3
+sound_effect = ExtResource("6_uxk66")
+volume = 2.6270000000000024
+pitch_scale = 1.25
+pitch_randomness = 0.3
+metadata/_custom_type_script = "uid://cle13ye6snqji"
+
+[sub_resource type="Resource" id="Resource_tqgbg"]
+script = ExtResource("2_kix12")
+type = 4
+sound_effect = ExtResource("7_hds1h")
+metadata/_custom_type_script = "uid://cle13ye6snqji"
+
+[sub_resource type="Resource" id="Resource_03wka"]
+script = ExtResource("2_kix12")
+type = 5
+sound_effect = ExtResource("8_3xok3")
+volume = 1.0
+metadata/_custom_type_script = "uid://cle13ye6snqji"
+
+[node name="AudioManager" type="Node2D"]
+script = ExtResource("1_hrhdx")
+sound_effects = Array[ExtResource("2_kix12")]([SubResource("Resource_hl7fh"), SubResource("Resource_m8juj"), SubResource("Resource_age6g"), SubResource("Resource_x8ipi"), SubResource("Resource_tqgbg"), SubResource("Resource_03wka")])

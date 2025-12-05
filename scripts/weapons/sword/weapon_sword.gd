@@ -25,17 +25,17 @@ var _is_visible_state: bool = false
 func _ready() -> void:
 	timer.one_shot = true
 	timer.timeout.connect(_on_timer_timeout)
+	hit_box.monitorable = false
 	sprite.visible = false
 	_is_visible_state = false
-	hit_box.monitorable = false
 	if start_on_ready:
 		_start_cycle()
 		
 # existing show/hide cycle code
 func _start_cycle() -> void:
+	hit_box.monitorable = false
 	_is_visible_state = false
 	sprite.visible = false
-	hit_box.monitorable = false
 	_set_timer(hidden_time)
 
 func stop(hide: bool = true) -> void:
@@ -47,18 +47,19 @@ func stop(hide: bool = true) -> void:
 func _on_timer_timeout() -> void:
 	if _is_visible_state:
 		# visible -> hide; if not looping, emit finished
+		hit_box.monitorable = false
 		sprite.visible = false
 		_is_visible_state = false
-		hit_box.monitorable = false
 		if loop:
 			_set_timer(hidden_time)
 		else:
 			emit_signal("attack_finished")
 	else:
 		# hidden -> show
+		hit_box.monitorable = true
 		sprite.visible = true
 		_is_visible_state = true
-		hit_box.monitorable = true
+		AudioManager.create_audio(SoundEffect.SOUND_EFFECT_TYPE.SWORD_SLASH_SOUND_EFFECT)
 		_set_timer(visible_time)
 
 # helper to set timer wait and start it
@@ -90,12 +91,6 @@ func start(direction: Vector2, origin: Vector2) -> void:
 	_is_visible_state = true
 	hit_box.monitorable = true
 	_set_timer(visible_time)
-
-	# enable hitbox if present
-	if has_node("HitBox"):
-		var hb = $HitBox
-		if hb is Area2D:
-			hb.monitoring = true
 
 # optional helper
 func is_visible_state() -> bool:

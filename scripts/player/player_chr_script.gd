@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var plyaer_attack_dir : PlayerAttackDirComponent = null
 
 # Player Signals
-signal player_died(postition)
+signal player_died()
 
 # Player Character Stats
 @onready var current_health = 0
@@ -24,7 +24,7 @@ var last_facing: Vector2 = Vector2.RIGHT
 @onready var AniSpr = $AnimatedSprite2D
 
 #refrence to weapon
-@export var weapon_node_path: NodePath = NodePath("WeaponSword")  # path to child node
+@export var weapon_node_path: NodePath = NodePath("WeaponSword") # path to child node
 @onready var weapon_node: Node = null
 
 # Auto-attack toggle
@@ -35,7 +35,9 @@ func _ready():
 	camera_settings.ready_camera_settings(cam)
 	
 	# find weapon child (if present)
+	print(weapon_node_path)
 	if has_node(weapon_node_path):
+		print("sword found")
 		weapon_node = get_node(weapon_node_path)
 	else:
 		weapon_node = null
@@ -71,18 +73,24 @@ func _physics_process(delta: float):
 	move_and_slide()
 	handle_animation()
 	position = position.round()
+	
+	if weapon_node_path:
 		# compute attack direction/placement
-	var attack_dir = plyaer_attack_dir.get_attack_direction(dir, last_facing)
-	var local_offset = plyaer_attack_dir.get_local_position(attack_dir)
-	var rotation_rad = plyaer_attack_dir.get_rotation_rad(attack_dir)
+		var attack_dir = plyaer_attack_dir.get_attack_direction(dir, last_facing)
+		var local_offset = plyaer_attack_dir.get_local_position(attack_dir)
+		var rotation_rad = plyaer_attack_dir.get_rotation_rad(attack_dir)
 
-	# position weapon and start it; connect to attack_finished so we can clear state
-	if weapon_node.get_parent() == self:
-		weapon_node.position = local_offset
-		weapon_node.rotation = rotation_rad
-	else:
-		weapon_node.global_position = global_position + attack_dir * plyaer_attack_dir.sword_offset
-		weapon_node.rotation = rotation_rad
+		# position weapon and start it; connect to attack_finished so we can clear state
+		if weapon_node.get_parent() == self:
+			weapon_node.position = local_offset
+			weapon_node.rotation = rotation_rad
+		else:
+			weapon_node.global_position = global_position + attack_dir * plyaer_attack_dir.sword_offset
+			weapon_node.rotation = rotation_rad
+		
+		if velocity.x != 0:
+			AniSpr.flip_h = velocity.x < 0
+			
 
 
 func _unhandled_input(_event: InputEvent):
@@ -100,8 +108,10 @@ func handle_animation():
 		
 func take_damage(damage: int, source_pos: Vector2 = global_position):
 	current_health = health_component.damage_calculation(damage)
+	AudioManager.create_audio(SoundEffect.SOUND_EFFECT_TYPE.PLAYER_HIT_FLESH_SOUND)
+	$CPUParticles2D.emitting = true
 	if current_health <= 0:
-		player_died.emit(global_position)
+		player_died.emit()
 		
 	# Calculate knockback direction
 	knockback = force_knockback.calculateKnockback(global_position, source_pos)

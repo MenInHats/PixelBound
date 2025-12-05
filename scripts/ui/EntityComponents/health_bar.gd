@@ -14,12 +14,12 @@ func _ready():
 	max_Health = health_component.maxHealth
 	min_Health = health_component.minHealth
 	
-func _process(delta):
+func _process(_delta):
 	self.value = clamp(health_component.curHealth * 100 / health_component.maxHealth, 0, 100)
-	if health_component.curHealth != max_Health:
-		self.visible = true
+	if health_component.curHealth == max_Health:
+		self.visible = false
 		if health_component.curHealth == min_Health:
 			self.visible = false
 	else:
-		self.visible
+		self.visible = true
 	

@@ -17,6 +17,11 @@ var dir : Vector2
 
 var player: Node2D
 
+#animation variables
+@onready var sprite_2d = $Sprite2D
+@onready var enemy_animation = $EnemyAnimation
+
+
 func _ready() -> void:
 	# Automatically find the player if not manually assigned
 	if player == null:
@@ -26,7 +31,7 @@ func _ready() -> void:
 			set_physics_process(false)
 			return
 	current_health = health_component.reset_entity_health()
-
+	
 func _physics_process(delta: float) -> void:
 	#Note: if the enemy gets stuck to player its beacuse it see 
 	if not player:
@@ -34,35 +39,25 @@ func _physics_process(delta: float) -> void:
 
 	# Direction toward player
 	var direction = (player.global_position - global_position).normalized()
-	var dir_len = direction.length()
 
-	# --- Simple avoidance ---
-	#var avoid_force = Vector2.ZERO
-	#for other in get_tree().get_nodes_in_group("enemies"):
-		#if other == self:
-			#continue
-		#var dist = global_position.distance_to(other.global_position)
-		#if dist < avoid_radius:
-			#avoid_force += (global_position - other.global_position).normalized() * (avoid_radius - dist)
-			
-	# Combine movement forces
-	#direction += avoid_force.normalized() * 0.4  # blend avoidance
-		# Apply knockback if active
 	if knockback_timer > 0:
 		knockback_timer -= delta
 		velocity = knockback
 	else:
 		direction = direction.normalized()
 		velocity = direction * speed * delta
-
 	move_and_slide()
+	
+	if direction.x != 0:
+		sprite_2d.flip_h = direction.x > 0
 	
 func take_damage(damage: int, source_pos: Vector2 = global_position):
 	current_health = health_component.damage_calculation(damage)
+	enemy_animation.play("Flash_Sprite")
+	AudioManager.create_audio(SoundEffect.SOUND_EFFECT_TYPE.ENEMY_BAT_DEFEATED_BONE_CRUNCH_SOUND)
 	if health_component.is_entity_dead(current_health):
 		queue_free()
 	
 	# Calculate knockback direction
 	knockback = force_knockback.calculateKnockback(global_position, source_pos)
 	knockback_timer = force_knockback.knockback_duration
-	

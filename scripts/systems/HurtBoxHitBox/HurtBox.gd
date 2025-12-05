@@ -19,6 +19,6 @@ func _on_area_entered(area: Area2D) -> void:
 
 	if area is HitBoxes:
 		var hitbox = area as HitBoxes
-		print(owner)
 		if owner and owner.has_method("take_damage"):
 			owner.take_damage(hitbox.damage, hitbox.global_position)
+			

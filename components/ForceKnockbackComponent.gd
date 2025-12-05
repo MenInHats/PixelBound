@@ -12,5 +12,4 @@ func calculateKnockback(global_pos: Vector2, source_pos: Vector2):
 	#Take the entity's current position then the position of the knockbacks source then include the strength into the calculation
 	knockback = (global_pos - source_pos).normalized() * knockback_strength
 	knockback_timer = knockback_duration
-	print(knockback, knockback_timer)
 	return knockback

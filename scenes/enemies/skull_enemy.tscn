@@ -1,0 +1,119 @@
+[gd_scene load_steps=17 format=3 uid="uid://dgsuivbjevft5"]
+
+[ext_resource type="Script" uid="uid://bn8adqic1xq51" path="res://scripts/enemies/skull_enemy_script.gd" id="1_ehdck"]
+[ext_resource type="Script" uid="uid://boxhn8f0s56up" path="res://components/HealthComponent.gd" id="2_jiql2"]
+[ext_resource type="Script" uid="uid://cy7yjlof4j2td" path="res://components/ForceKnockbackComponent.gd" id="3_5coat"]
+[ext_resource type="Shader" uid="uid://bfa4wfvlon44c" path="res://scripts/utils/shaders/enemy_flash_shader.gdshader" id="4_jiql2"]
+[ext_resource type="Texture2D" uid="uid://d2der3p3852ha" path="res://assets/sprites/enemies/Skull_Unaffected.png" id="4_wxabm"]
+[ext_resource type="Script" uid="uid://bop3j6je218tu" path="res://scripts/systems/HurtBoxHitBox/HurtBox.gd" id="5_nul1x"]
+[ext_resource type="Script" uid="uid://dc0r85fys45s6" path="res://scripts/systems/HurtBoxHitBox/HitBox.gd" id="6_5coat"]
+
+[sub_resource type="Resource" id="Resource_jiql2"]
+script = ExtResource("2_jiql2")
+maxHealth = 30
+curHealth = 30
+metadata/_custom_type_script = "uid://boxhn8f0s56up"
+
+[sub_resource type="Resource" id="Resource_5coat"]
+script = ExtResource("3_5coat")
+metadata/_custom_type_script = "uid://cy7yjlof4j2td"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5coat"]
+resource_local_to_scene = true
+shader = ExtResource("4_jiql2")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flashvalue = 0.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wxabm"]
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7bcsj"]
+height = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jiql2"]
+radius = 9.0
+
+[sub_resource type="Animation" id="Animation_o8anq"]
+resource_name = "Flash_Sprite"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/flashvalue")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_0ridd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/flashvalue")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_owdfn"]
+_data = {
+&"Flash_Sprite": SubResource("Animation_o8anq"),
+&"RESET": SubResource("Animation_0ridd")
+}
+
+[node name="SkullEnemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 6
+motion_mode = 1
+script = ExtResource("1_ehdck")
+health_component = SubResource("Resource_jiql2")
+force_knockback = SubResource("Resource_5coat")
+speed = 1500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5coat")
+texture = ExtResource("4_wxabm")
+
+[node name="HitBoxes" type="Area2D" parent="Sprite2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("6_5coat")
+col_layer = 8
+col_mask = 2
+metadata/_custom_type_script = "uid://dc0r85fys45s6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitBoxes"]
+shape = SubResource("CapsuleShape2D_wxabm")
+
+[node name="HurtBoxes" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 16
+script = ExtResource("5_nul1x")
+col_layer = 4
+col_mask = 16
+metadata/_custom_type_script = "uid://bop3j6je218tu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxes"]
+visible = false
+shape = SubResource("CapsuleShape2D_7bcsj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 0.24296135)
+shape = SubResource("CircleShape2D_jiql2")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="EnemyAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_owdfn")
+}

@@ -1,0 +1,162 @@
+[gd_scene load_steps=21 format=3 uid="uid://bva18e2sib6w2"]
+
+[ext_resource type="Script" uid="uid://clxgdeettuv6l" path="res://scripts/enemies/crawler_enemy_script.gd" id="1_tq4e4"]
+[ext_resource type="Script" uid="uid://boxhn8f0s56up" path="res://components/HealthComponent.gd" id="2_et204"]
+[ext_resource type="Script" uid="uid://cy7yjlof4j2td" path="res://components/ForceKnockbackComponent.gd" id="3_byvc3"]
+[ext_resource type="Shader" uid="uid://bfa4wfvlon44c" path="res://scripts/utils/shaders/enemy_flash_shader.gdshader" id="4_ms07g"]
+[ext_resource type="Texture2D" uid="uid://dwwjfbhs7lgl2" path="res://assets/sprites/enemies/Skittering Hand/SkitteringHand.png" id="5_gfb21"]
+[ext_resource type="Script" uid="uid://dc0r85fys45s6" path="res://scripts/systems/HurtBoxHitBox/HitBox.gd" id="6_rtovd"]
+[ext_resource type="Script" uid="uid://bop3j6je218tu" path="res://scripts/systems/HurtBoxHitBox/HurtBox.gd" id="7_0qlrf"]
+
+[sub_resource type="Resource" id="Resource_et204"]
+script = ExtResource("2_et204")
+maxHealth = 10
+metadata/_custom_type_script = "uid://boxhn8f0s56up"
+
+[sub_resource type="Resource" id="Resource_byvc3"]
+script = ExtResource("3_byvc3")
+metadata/_custom_type_script = "uid://cy7yjlof4j2td"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o8anq"]
+resource_local_to_scene = true
+shader = ExtResource("4_ms07g")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flashvalue = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms07g"]
+atlas = ExtResource("5_gfb21")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ol8li"]
+atlas = ExtResource("5_gfb21")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtovd"]
+atlas = ExtResource("5_gfb21")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ykb1x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ms07g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ol8li")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtovd")
+}],
+"loop": true,
+"name": &"Moving",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o8anq"]
+radius = 8.0
+height = 16.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7bcsj"]
+radius = 9.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ridd"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="Animation" id="Animation_owdfn"]
+resource_name = "Flash_SpriteAni"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/flashvalue")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_0ridd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/flashvalue")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_owdfn"]
+_data = {
+&"Flash_SpriteAni": SubResource("Animation_owdfn"),
+&"RESET": SubResource("Animation_0ridd")
+}
+
+[node name="CrawlerEnemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 6
+motion_mode = 1
+script = ExtResource("1_tq4e4")
+health_component = SubResource("Resource_et204")
+force_knockback = SubResource("Resource_byvc3")
+speed = 4500.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_o8anq")
+sprite_frames = SubResource("SpriteFrames_ykb1x")
+animation = &"Moving"
+frame = 1
+frame_progress = 0.24744141
+
+[node name="HitBoxes" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("6_rtovd")
+col_layer = 8
+col_mask = 2
+metadata/_custom_type_script = "uid://dc0r85fys45s6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBoxes"]
+shape = SubResource("CapsuleShape2D_o8anq")
+
+[node name="HurtBoxes" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 16
+script = ExtResource("7_0qlrf")
+col_layer = 4
+col_mask = 16
+metadata/_custom_type_script = "uid://bop3j6je218tu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxes"]
+shape = SubResource("CapsuleShape2D_7bcsj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0ridd")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="EnemyAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_owdfn")
+}
